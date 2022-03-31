@@ -9,13 +9,14 @@ export default function Register() {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
     const [userInfo, setUserInfo] = useState({});
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if(Object.keys(userInfo).length !== 0){
+            setDisabled(true);
             axios.post(URL, userInfo)
-            .then(response => {
-                localStorage.setItem("token", response.data.id);
+            .then((response) => {
                 navigate("/");
             })
             .catch(error => {
@@ -24,6 +25,7 @@ export default function Register() {
                     alert("Usuário já cadastrado!");
                 }
                 else alert("Erro ao cadastrar usuário!");
+                setDisabled(false);
             });
         }
     }, [userInfo]);
@@ -31,7 +33,7 @@ export default function Register() {
     return (
         <Main>
             <img src={logo} alt="trackIt" />
-            <Form type="register" setUserInfo={setUserInfo}/>
+            <Form type="register" setUserInfo={setUserInfo} disabled={disabled}/>
             <Link to="/">Já tem uma conta? Faça login!</Link>
         </Main>
     )
