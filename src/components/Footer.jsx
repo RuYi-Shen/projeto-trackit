@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export default function Footer({ movieInfo, sessionInfo }) {
-    const { title, posterURL } = movieInfo;
+export default function Footer() {
+   
 
     return (
         <Info>
@@ -16,6 +16,9 @@ export default function Footer({ movieInfo, sessionInfo }) {
 const Info = styled.footer`
 
     position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100vw;
-    
+    height: 70px;
+    background-color: #fff;
 `;

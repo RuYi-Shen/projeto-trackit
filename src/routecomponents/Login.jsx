@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 import Form from '../components/Form';
 import logo from '../assets/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useContext } from "react";
+
+import UserContext from "../contexts/UserContext";
 
 export default function Login() {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
     
     const [userInfo, setUserInfo] = useState({});
     const [disabled, setDisabled] = useState(false);
+    const navigate = useNavigate();
+    const { setImage } = useContext(UserContext).image;
 
 
     useEffect(() => {
@@ -18,7 +23,8 @@ export default function Login() {
             axios.post(URL, userInfo)
             .then((response) => {
                 localStorage.setItem('token', response.data.token);
-                //navigate("/");
+                setImage(response.data.image);
+                navigate("/habitos");
             })
             .catch(error => {
                 console.log(error);
@@ -29,7 +35,7 @@ export default function Login() {
                 setDisabled(false);
             });
         }
-    }, [userInfo]);
+    }, [userInfo, setImage, navigate]);
 
     return (
         <Main>

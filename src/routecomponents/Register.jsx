@@ -28,7 +28,7 @@ export default function Register() {
                 setDisabled(false);
             });
         }
-    }, [userInfo]);
+    }, [userInfo, navigate]);
 
     return (
         <Main>
