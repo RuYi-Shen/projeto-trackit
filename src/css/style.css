@@ -1,0 +1,11 @@
+/******************************** Global Configuration ********************************/
+
+* {
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+body {
+    background-color: #FFFFFF;
+    font-family: 'Lexend Deca', sans-serif;
+}
