@@ -24,7 +24,7 @@ export default function Login() {
             .then((response) => {
                 localStorage.setItem('token', response.data.token);
                 setImage(response.data.image);
-                navigate("/habitos");
+                navigate("/hoje");
             })
             .catch(error => {
                 console.log(error);
@@ -49,13 +49,14 @@ export default function Login() {
 
 const Main = styled.main`
     width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 70px 36px;
     background-color: #fff;
 
-    z-index: 1;
+    z-index: 2;
 
     img {
         width: 180px;
@@ -79,6 +80,6 @@ const Main = styled.main`
 
         margin-top: 25px;
 
-        color: #52B6FF;
+        color: var(--blue);
     }
 `

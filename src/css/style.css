@@ -3,9 +3,18 @@
 * {
     box-sizing: border-box;
     word-break: break-word;
+   
+    --blue: #52B6FF;
+    --nightblue: #126BA5;
 }
 
 body {
     background-color: #FFFFFF;
     font-family: 'Lexend Deca', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+button:hover {
+    cursor: pointer;
 }
