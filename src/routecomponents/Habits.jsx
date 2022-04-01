@@ -10,8 +10,8 @@ export default function Habits() {
     const [habits, setHabits] = useState([]);
     const [createMode, setCreateMode] = useState(false);
     const [habitDesription, setHabitDesription] = useState('');
+    const [selectedDays, setSelectedDays] = useState(new Map());
 
-    const selectedDays = new Map();
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     
 
@@ -46,7 +46,9 @@ export default function Habits() {
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="nome do hábito" value={habitDesription} onChange={e => setHabitDesription(e.target.value)} required/>
                     <div className="weekdays">
-                        {weekdays.map((day,index) => {return <div onClick={()=>{selectedDays.set(index)}}>{day}</div>})}
+                        {weekdays.map((day,index) => {
+                            return <Div key={index} selected={selectedDays.has(index)} onClick={()=> {(selectedDays.has(index) ? selectedDays.delete(index) : selectedDays.set(index)); setSelectedDays(new Map(selectedDays))}}>{day}</Div>
+                        })}
                     </div>
                     <div className="buttons">
                         <p onClick={()=>setCreateMode(false)}>Cancelar</p>
@@ -151,7 +153,6 @@ const Main = styled.main`
                 align-items: center;
                 margin-right: 4px;
 
-                background: #FFFFFF;
                 border: 1px solid #D5D5D5;
                 box-sizing: border-box;
                 border-radius: 5px;
@@ -159,7 +160,6 @@ const Main = styled.main`
                 font-size: 20px;
                 line-height: 25px;
 
-                color: #DBDBDB;
             }
         }
 
@@ -214,5 +214,13 @@ const Main = styled.main`
             color: #666666;
         }
     }
-
 `
+
+const Div = styled.div`
+    background-color: ${(props => props.selected ? '#DBDBDB' : '#FFFFFF')};
+    color: ${(props => props.selected ? '#FFFFFF' : '#DBDBDB')};
+
+    :hover {
+        cursor: pointer;
+    }
+`;
