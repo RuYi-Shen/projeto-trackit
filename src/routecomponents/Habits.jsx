@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useContext } from "react";
+import Habit from '../components/Habit';
 
 export default function Habits() {
     const URL ="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -18,33 +19,59 @@ export default function Habits() {
     });
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];    
 
-    useEffect(() => { 
+    function getHabits () {
         axios.get(URL, config)
         .then((response) => {
-            console.log(response);
             setHabits(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }, [config]);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        const data = {
-            name: habitDesription,
-            days: [...selectedDays.keys()]
-        }
-        axios.post(URL, data, config)
-        .then((response) => {
-            console.log(response);
-            setCreateMode(false);
         })
         .catch(error => {
             console.log(error);
         });
     }
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (selectedDays.size === 0) {
+            alert("Selecione pelo menos um dia da semana!");
+        }
+        else createHabit();
+    }
+
+    function createHabit() {
+        const data = {
+            name: habitDesription,
+            days: [...selectedDays.keys()]
+        }
+        axios.post(URL, data, config)
+        .then((response) => {
+            setCreateMode(false);
+            resetForm();
+            getHabits();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    function resetForm () {
+        setHabitDesription('');
+        setSelectedDays(new Map());
+    }
+
+
+    function deleteHabit(id) {
+        axios.delete(`${URL}/${id}`, config)
+        .then((response) => {
+            getHabits();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    useEffect(() => { 
+        getHabits();
+    }, [getHabits]);
 
     return (
         <Main>
@@ -72,7 +99,9 @@ export default function Habits() {
                 {habits.length === 0 ?
                     <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                     :
-                    habits.map((habit, index) => {})
+                    habits.map(({id, name, days}) => {
+                        return <Habit key={id} id={id} description={name} selected={days} deleteHabit={deleteHabit}/>
+                    })
                 }
             </section>
         </Main>
