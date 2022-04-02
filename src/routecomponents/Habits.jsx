@@ -11,16 +11,14 @@ export default function Habits() {
     const [createMode, setCreateMode] = useState(false);
     const [habitDesription, setHabitDesription] = useState('');
     const [selectedDays, setSelectedDays] = useState(new Map());
-
-    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
-    
+    const [config] = useState({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];    
 
     useEffect(() => { 
-        const config = {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        }
         axios.get(URL, config)
         .then((response) => {
             console.log(response);
@@ -29,12 +27,24 @@ export default function Habits() {
         .catch(error => {
             console.log(error);
         });
-    }, []);
+    }, [config]);
 
     function handleSubmit(e) {
         e.preventDefault();
-       
+        const data = {
+            name: habitDesription,
+            days: [...selectedDays.keys()]
+        }
+        axios.post(URL, data, config)
+        .then((response) => {
+            console.log(response);
+            setCreateMode(false);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
+
 
     return (
         <Main>
