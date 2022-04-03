@@ -3,14 +3,34 @@ import styled from 'styled-components';
 export default function History() {
     return (
         <Main>
-            <h1>History</h1>
+            <h2>Histórico</h2>
+            <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
         </Main>
     );
 }
 
 const Main = styled.main`
-    
-    height: 2000px;
-    margin-top: 100px;
+    min-height: 100vh;
+    padding: 98px calc((100vw - 340px)/2);
     background-color: #F2F2F2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        width: 100%;
+        font-size: 23px;
+        line-height: 29px;
+
+        color: #126BA5;
+    }
+
+    p {
+        width: 100%;
+        font-size: 18px;
+        line-height: 22px;
+        margin-top: 17px;
+
+        color: var(--grey);
+    }
 `

@@ -18,8 +18,8 @@ export default function Nav() {
             <Link to="/hoje">
                 <CircularProgressbar
                     className="progress-circle"
-                    value={40}
-                    text={`${progress}%`}
+                    value={progress}
+                    text="Hoje"
                     background
                     backgroundPadding={6}
                     styles={buildStyles({

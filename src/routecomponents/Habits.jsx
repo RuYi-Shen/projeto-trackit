@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useContext } from "react";
 import Habit from '../components/Habit';
 
 export default function Habits() {
@@ -71,7 +69,7 @@ export default function Habits() {
 
     useEffect(() => { 
         getHabits();
-    }, [getHabits]);
+    }, []);
 
     return (
         <Main>
