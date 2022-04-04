@@ -81,6 +81,10 @@ const Title = styled.header`
 
         background: url(image.png);
         border-radius: 50%;
+
+        :hover {
+            cursor: pointer;
+        }
     }
 `;
 
