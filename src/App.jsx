@@ -10,9 +10,6 @@ import Today from "./routecomponents/Today";
 import History from "./routecomponents/History";
 import NotFound from "./routecomponents/NotFound";
 
-import Header from "./components/Header";
-import Nav from "./components/Nav";
-
 import './css/normalize.css';
 import './css/style.css';
 
@@ -24,7 +21,6 @@ export default function App() {
     return (
         <UserContext.Provider value={{userData:{userData, setUserData}, progress:{progress, setProgress}}}>
             <BrowserRouter>
-                <Header />
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/cadastro" element={<Register />} />
@@ -33,7 +29,6 @@ export default function App() {
                     <Route path="/historico" element={<History />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-                <Nav />
             </BrowserRouter>
         </UserContext.Provider>
     );

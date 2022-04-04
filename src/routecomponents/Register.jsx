@@ -1,16 +1,17 @@
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 import Form from '../components/Form';
 import logo from '../assets/logo.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Register() {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
+    const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({});
     const [disabled, setDisabled] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         if(Object.keys(userInfo).length !== 0){
@@ -47,9 +48,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: center;
     padding: 70px 36px;
-    background-color: #fff;
-
-    z-index: 2;
+    background-color: var(--white);
 
     img {
         width: 180px;
@@ -59,13 +58,10 @@ const Main = styled.main`
     }
 
     form {
-        max-width: 640px;
+        max-width: 430px;
     }
 
     a {
-        font-family: 'Lexend Deca';
-        font-style: normal;
-        font-weight: 400;
         font-size: 14px;
         line-height: 17px;
         text-align: center;

@@ -1,8 +1,11 @@
-import styled from 'styled-components';
 import { useState, useEffect, useContext } from 'react';
 import UserContext from "../contexts/UserContext";
-import axios from 'axios';
+
+import styled from 'styled-components';
+import Header from "../components/Header";
 import Daily from '../components/Daily';
+import Nav from "../components/Nav";
+import axios from 'axios';
 
 export default function Today() {
     const URL ="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
@@ -10,19 +13,28 @@ export default function Today() {
 
     const { progress, setProgress } = useContext(UserContext).progress;
     const { token } = useContext(UserContext).userData.userData;
+    const [dailys, setDailys] = useState([]);
     const [config] = useState({
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
-    const [dailys, setDailys] = useState([]);
+
     const weekdays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
     const today = new Date();
     const day = weekdays[today.getDay()];
     const date = `${today.getDate()}`.padStart(2, "0");
     const month = `${today.getMonth()+1}`.padStart(2, "0");
-    console.log(token)
+
+    function calculateProgress() {
+        let doneHabits = 0;
+        if(dailys.length > 0) {
+            dailys.forEach(daily => {if(daily.done) doneHabits++}); 
+            setProgress(Math.round(doneHabits*100/dailys.length));
+        }
+    }
+
     function getDailys () {
         axios.get(URL, config)
         .then((response) => {
@@ -32,18 +44,9 @@ export default function Today() {
             console.log(error);
         });
     }
-    
-    function calculateProgress() {
-        let doneHabits = 0;
-        if(dailys.lenght > 0) {
-            dailys.forEach(daily => {if(daily.done) doneHabits++}); 
-            setProgress(Math.round(doneHabits*100/dailys.length));
-        }
-    }
 
     function checkDaily(id) {
-        console.log(id);
-        axios.post(`${HabitURL}${id}/check'`, config)
+        axios.post(`${HabitURL}${id}/check`, config)
         .then((response) => {
             getDailys();
         })
@@ -68,9 +71,12 @@ export default function Today() {
 
     useEffect(() =>{
         calculateProgress(); // eslint-disable-next-line
-    }, [progress]); 
+    }, [dailys]); 
+
 
     return (
+        <>
+        <Header />
         <Main progress={progress > 0}>
             <h2>{day}, {date}/{month}</h2>
             {progress === 0 ? 
@@ -88,13 +94,15 @@ export default function Today() {
                 }
             </section>
         </Main>
+        <Nav />
+        </>
     );
 }
 
 const Main = styled.main`
     min-height: 100vh;
     padding: 98px calc((100vw - 340px)/2);
-    background-color: #F2F2F2;
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,7 +112,7 @@ const Main = styled.main`
         font-size: 23px;
         line-height: 29px;
 
-        color: #126BA5;
+        color: var(--nightblue);
     }
 
     > p {
@@ -126,28 +134,3 @@ const Main = styled.main`
         margin-top: 28px;
     }
 `
-/* 
-switch(dayOfWeekNumber){
-    case 0: 
-        nameOfDay = 'Domingo';
-        break;
-    case 1:
-        nameOfDay = 'Segunda';
-        break;
-    case 2:
-        nameOfDay = 'Terça';
-        break;
-    case 3:
-        nameOfDay = 'Quarta';
-        break;
-    case 4:
-        nameOfDay = 'Quinta';
-        break;
-    case 5:
-        nameOfDay = 'Sexta';
-        break;
-    case 6:
-        nameOfDay = 'Sábado';
-        break;
-
-} */

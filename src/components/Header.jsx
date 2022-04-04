@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { useContext, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import UserContext from "../contexts/UserContext";
-import { Link, useNavigate } from 'react-router-dom';
+
+import styled from "styled-components";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ const Title = styled.header`
     justify-content: space-between;
     padding: 0 18px;
 
-    background: #126BA5;
+    background: var(--nightblue);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 
     z-index: 1;
@@ -69,7 +70,7 @@ const Title = styled.header`
         font-size: 39px;
         line-height: 49px;
 
-        color: #FFFFFF;
+        color: var(--white);
     }
 
     img {

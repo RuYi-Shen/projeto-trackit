@@ -1,26 +1,52 @@
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Habit from '../components/Habit';
-import { ThreeDots } from 'react-loader-spinner'
-import { useContext } from "react";
+import { useState, useEffect, useContext } from 'react';
 import UserContext from "../contexts/UserContext";
+
+import styled from 'styled-components';
+import { ThreeDots } from 'react-loader-spinner'
+import Habit from '../components/Habit';
+import Header from "../components/Header";
+import Nav from "../components/Nav";
+import axios from 'axios';
 
 export default function Habits() {
     const URL ="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     
     const [habits, setHabits] = useState([]);
+    const [disabled, setDisabled] = useState(false);
     const [createMode, setCreateMode] = useState(false);
     const [habitDesription, setHabitDesription] = useState('');
     const [selectedDays, setSelectedDays] = useState(new Map());
-    const [disabled, setDisabled] = useState(false);
     const { token } = useContext(UserContext).userData.userData;
     const [config] = useState({
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];    
+
+    function resetForm () {
+        setHabitDesription('');
+        setSelectedDays(new Map());
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (selectedDays.size === 0) {
+            alert("Selecione pelo menos um dia da semana!");
+        }
+        else createHabit();
+    }
+
+    function handleClick(index) {
+        if (!disabled) {
+            (selectedDays.has(index) ? 
+            selectedDays.delete(index) 
+            : 
+            selectedDays.set(index))
+            setSelectedDays(new Map(selectedDays));
+        }
+    }
 
     function getHabits () {
         axios.get(URL, config)
@@ -30,14 +56,6 @@ export default function Habits() {
         .catch(error => {
             console.log(error);
         });
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        if (selectedDays.size === 0) {
-            alert("Selecione pelo menos um dia da semana!");
-        }
-        else createHabit();
     }
 
     function createHabit() {
@@ -59,21 +77,6 @@ export default function Habits() {
         });
     }
 
-    function resetForm () {
-        setHabitDesription('');
-        setSelectedDays(new Map());
-    }
-
-    function handleClick(index) {
-        if (!disabled) {
-            (selectedDays.has(index) ? 
-                selectedDays.delete(index) 
-                : 
-                selectedDays.set(index))
-            setSelectedDays(new Map(selectedDays));
-        }
-    }
-
     function deleteHabit(id) {
         axios.delete(`${URL}/${id}`, config)
         .then((response) => {
@@ -89,6 +92,8 @@ export default function Habits() {
     }, []);
 
     return (
+        <>
+        <Header />
         <Main disabled={disabled}>
             <div className="header">
                 <h2>Meus hábitos</h2>
@@ -122,13 +127,15 @@ export default function Habits() {
                 }
             </section>
         </Main>
+        <Nav />
+        </>
     );
 }
 
 const Main = styled.main`
     min-height: 100vh;
     padding: 98px calc((100vw - 340px)/2);
-    background-color: #F2F2F2;
+    background-color: var(--background);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -140,9 +147,7 @@ const Main = styled.main`
         width: 100%;
 
         h2 {
-            font-family: 'Lexend Deca';
-            font-style: normal;
-            font-weight: 400;
+            
             font-size: 23px;
             line-height: 29px;
 
@@ -189,17 +194,17 @@ const Main = styled.main`
                 width: 100%;
                 height: 45px;
 
-                border: 1px solid #D5D5D5;
+                border: 1px solid var(--border);
                 border-radius: 5px;
                 padding: 11px;
-                background-color: ${(props => props.disabled ? '#F2F2F2' : '#FFFFFF')};
+                background-color: ${(props => props.disabled ? 'var(--background)' : '#FFFFFF')};
                 color: ${(props => props.disabled ? '#B3B3B3' : 'var(--grey)')};
 
                 ::placeholder {
                     font-size: 20px;
                     line-height: 25px;
 
-                    color: #DBDBDB;
+                    color: var(--lightgrey);
                 }
             }
             
@@ -217,7 +222,7 @@ const Main = styled.main`
                     align-items: center;
                     margin-right: 4px;
 
-                    border: 1px solid #D5D5D5;
+                    border: 1px solid var(--border);
                     box-sizing: border-box;
                     border-radius: 5px;
 
@@ -279,14 +284,14 @@ const Main = styled.main`
             font-size: 18px;
             line-height: 22px;
 
-            color: #666666;
+            color: var(--grey);
         }
     }
 `
 
 const Div = styled.div`
-    background-color: ${(props => props.selected ? '#DBDBDB' : '#FFFFFF')};
-    color: ${(props => props.selected ? '#FFFFFF' : '#DBDBDB')};
+    background-color: ${(props => props.selected ? 'var(--lightgrey)' : '#FFFFFF')};
+    color: ${(props => props.selected ? '#FFFFFF' : 'var(--lightgrey)')};
 
     :hover {
         cursor: pointer;

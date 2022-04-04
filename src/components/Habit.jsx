@@ -29,7 +29,7 @@ const MyHabit = styled.div`
     justify-content: space-between;
     flex-direction: column;
     align-items: start;
-    background: #FFFFFF;
+    background: var(--white);
     border-radius: 5px;
     padding: 15px;
     position: relative;
@@ -39,7 +39,7 @@ const MyHabit = styled.div`
         font-size: 20px;
         line-height: 25px;
 
-        color: #666666;
+        color: var(--grey);
     }
 
     img {
@@ -68,7 +68,7 @@ const MyHabit = styled.div`
             align-items: center;
             margin-right: 4px;
 
-            border: 1px solid #D5D5D5;
+            border: 1px solid var(--border);
             box-sizing: border-box;
             border-radius: 5px;
 
@@ -80,8 +80,8 @@ const MyHabit = styled.div`
 `
 
 const Div = styled.div`
-    background-color: ${(props => props.selected ? '#DBDBDB' : '#FFFFFF')};
-    color: ${(props => props.selected ? '#FFFFFF' : '#DBDBDB')};
+    background-color: ${(props => props.selected ? 'var(--lightgrey)' : 'var(--white)')};
+    color: ${(props => props.selected ? 'var(--white)' : 'var(--lightgrey)')};
 
     :hover {
         cursor: pointer;

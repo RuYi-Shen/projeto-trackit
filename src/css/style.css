@@ -3,15 +3,19 @@
 * {
     box-sizing: border-box;
     word-break: break-word;
-   
+    
+    --white: #FFFFFF;
     --blue: #52B6FF;
     --nightblue: #126BA5;
     --green: #8FC549;
     --grey: #666666;
+    --lightgrey: #DBDBDB;
+    --background: #F2F2F2;
+    --border: #D5D5D5;
 }
 
 body {
-    background-color: #FFFFFF;
+    background-color: var(--white);
     font-family: 'Lexend Deca', sans-serif;
     font-style: normal;
     font-weight: 400;

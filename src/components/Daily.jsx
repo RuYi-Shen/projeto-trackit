@@ -27,7 +27,7 @@ const Div = styled.div`
     justify-content: space-between;
     flex-direction: column;
     align-items: start;
-    background: #FFFFFF;
+    background: var(--white);
     border-radius: 5px;
     padding: 15px;
     position: relative;
@@ -65,7 +65,7 @@ const Div = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: ${(props => props.done ? 'green' : '#EBEBEB')};
+        background-color: ${(props => props.done ? 'var(--green)' : '#EBEBEB')};
         border: 1px solid #E7E7E7;
         box-sizing: border-box;
         border-radius: 5px;

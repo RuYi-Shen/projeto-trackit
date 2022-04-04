@@ -1,21 +1,28 @@
 import styled from 'styled-components';
+
+import Nav from "../components/Nav";
+import Header from "../components/Header";
 import Calendar from 'react-calendar';  
 import 'react-calendar/dist/Calendar.css';
 
 export default function History() {
     return (
+        <>
+        <Header />
         <Main>
             <h2>Histórico</h2>
             <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
             <Calendar className="calendar" calendarType="US"/>
         </Main>
+        <Nav />
+        </>
     );
 }
 
 const Main = styled.main`
     min-height: 100vh;
     padding: 98px calc((100vw - 340px)/2);
-    background-color: #F2F2F2;
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,7 +32,7 @@ const Main = styled.main`
         font-size: 23px;
         line-height: 29px;
 
-        color: #126BA5;
+        color: car(--nightblue);
     }
 
     p {

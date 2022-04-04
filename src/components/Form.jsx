@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { ThreeDots } from 'react-loader-spinner'
+
+import styled from 'styled-components';
 
 export default function Form({type, setUserInfo, disabled}) {
 
@@ -32,7 +33,7 @@ export default function Form({type, setUserInfo, disabled}) {
                     <input type="url" id="image" pattern={regEx.image} placeholder="foto" required value={image} onChange={e => setImage(e.target.value)} />
                     </>
                 : null}   
-                <button type="submit">{disabled ? <ThreeDots color="#FFF" height={40} width={80} /> : (type === "register" ? "Cadastrar" : "Entrar")}</button>
+                <button type="submit">{disabled ? <ThreeDots color="var(--white)" height={40} width={80} /> : (type === "register" ? "Cadastrar" : "Entrar")}</button>
             </fieldset>
         </Forms>
     )
@@ -54,22 +55,19 @@ const Forms = styled.form`
         input {
             width: 100%;
             height: 45px;
-            border: 1px solid #D5D5D5;
+            border: 1px solid var(--border);
             box-sizing: border-box;
             border-radius: 5px;
             padding: 0 11px;
             margin-bottom: 6px;
-            background-color: ${(props => props.disabled ? '#F2F2F2' : '#FFFFFF')};
+            background-color: ${(props => props.disabled ? 'var(--background)' : 'var(--white)FFF')};
             color: ${(props => props.disabled ? '#B3B3B3' : 'var(--grey)')};
             
             &::placeholder {
-                font-family: 'Lexend Deca';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 19.976px;
+                font-size: 20px;
                 line-height: 25px;
 
-                color: #DBDBDB;
+                color: var(--lightgrey);
             }
         }
 
@@ -77,13 +75,13 @@ const Forms = styled.form`
             width: 100%;
             height: 45px;
             border: none;
-            background-color: #52B6FF;
+            background-color: var(--blue);
             border-radius: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
 
-            color: #FFF;
+            color: var(--white);
 
             &:hover {
                 cursor: pointer;
