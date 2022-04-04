@@ -46,7 +46,7 @@ export default function Today() {
     }
 
     function checkDaily(id) {
-        axios.post(`${HabitURL}${id}/check`, config)
+        axios.post(`${HabitURL}${id}/check`, {}, config)
         .then((response) => {
             getDailys();
         })
@@ -56,7 +56,7 @@ export default function Today() {
     }
 
     function uncheckDaily(id) {
-        axios.post(`${HabitURL}${id}/uncheck`, config)
+        axios.post(`${HabitURL}${id}/uncheck`, {}, config)
         .then((response) => {
             getDailys();
         })
