@@ -1,10 +1,13 @@
 import styled from 'styled-components';
+import Calendar from 'react-calendar';  
+import 'react-calendar/dist/Calendar.css';
 
 export default function History() {
     return (
         <Main>
             <h2>Histórico</h2>
             <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
+            <Calendar className="calendar" calendarType="US"/>
         </Main>
     );
 }
@@ -29,8 +32,13 @@ const Main = styled.main`
         width: 100%;
         font-size: 18px;
         line-height: 22px;
-        margin-top: 17px;
+        margin: 17px 0;
 
         color: var(--grey);
+    }
+
+    .calendar {
+        border-radius: 10px;
+        border: none;
     }
 `

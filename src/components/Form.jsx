@@ -22,7 +22,7 @@ export default function Form({type, setUserInfo, disabled}) {
     }
 
     return (
-        <Forms onSubmit={handleSubmit}>
+        <Forms onSubmit={handleSubmit} disabled={disabled}>
             <fieldset disabled={disabled}>
                 <input type="email" id="email" pattern={regEx.email} placeholder="email" required value={email} onChange={e => setEmail(e.target.value)} />
                 <input type="password" id="password" pattern={regEx.password} placeholder="senha" required value={password} onChange={e => setPassword(e.target.value)} />
@@ -59,6 +59,8 @@ const Forms = styled.form`
             border-radius: 5px;
             padding: 0 11px;
             margin-bottom: 6px;
+            background-color: ${(props => props.disabled ? '#F2F2F2' : '#FFFFFF')};
+            color: ${(props => props.disabled ? '#B3B3B3' : 'var(--grey)')};
             
             &::placeholder {
                 font-family: 'Lexend Deca';

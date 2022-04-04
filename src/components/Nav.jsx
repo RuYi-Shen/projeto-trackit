@@ -9,14 +9,14 @@ import {
 
 
 export default function Nav() {
-   
+    const needDominantBaselineFix = true;
     const { progress } = useContext(UserContext).progress;
 
     return (
         <Navbar>
             <Link to="/habitos">Hábitos</Link>
             <Link to="/hoje">
-                <CircularProgressbar
+                {/* <CircularProgressbar
                     className="progress-circle"
                     value={progress}
                     text="Hoje"
@@ -27,6 +27,21 @@ export default function Nav() {
                     textColor: "#fff",
                     pathColor: "#fff",
                     trailColor: "transparent"
+                    })}
+                /> */}
+                <CircularProgressbar
+                    className="progress-circle"
+                    value={100}
+                    maxValue={100}
+                    text={<tspan dx={needDominantBaselineFix ? -22 : 0} dy={needDominantBaselineFix ? 5 : 0}>Hoje</tspan>}
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                    backgroundColor: "#52B6FF",
+                    textSize: "22px",
+                    trailColor: "transparent",
+                    textColor: "#fff",
+                    pathColor: "#fff",
                     })}
                 />
             </Link>
@@ -57,20 +72,27 @@ const Navbar = styled.nav`
         font-weight: 400;
         font-size: 18px;
         line-height: 22px;
-        text-align: center;
+        //text-align: center;
 
         color: var(--blue);
 
         .progress-circle {
             position: absolute;
             bottom: 10px;
-            left: calc((100vw - 91px)/2);
+            //left: calc((100vw - 91px)/2);
             width: 91px;
             height: 91px;
-            display: flex;
+            //display: flex;
             text-align: center;
             align-items: center;
             justify-content: center;
+
+            .CircularProgressbar-text {
+                display: flex;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+            }
         }
     }
 `;

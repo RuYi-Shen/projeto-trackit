@@ -9,9 +9,10 @@ export default function Today() {
     const HabitURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/";
 
     const { progress, setProgress } = useContext(UserContext).progress;
+    const { token } = useContext(UserContext).userData.userData;
     const [config] = useState({
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${token}`
         }
     });
     const [dailys, setDailys] = useState([]);
@@ -21,7 +22,7 @@ export default function Today() {
     const day = weekdays[today.getDay()];
     const date = `${today.getDate()}`.padStart(2, "0");
     const month = `${today.getMonth()+1}`.padStart(2, "0");
-
+    console.log(token)
     function getDailys () {
         axios.get(URL, config)
         .then((response) => {
@@ -41,7 +42,8 @@ export default function Today() {
     }
 
     function checkDaily(id) {
-        axios.post(`${HabitURL}${id}/check`, config)
+        console.log(id);
+        axios.post(`${HabitURL}${id}/check'`, config)
         .then((response) => {
             getDailys();
         })
@@ -61,12 +63,12 @@ export default function Today() {
     }
 
     useEffect(() => {
-        getDailys();
+        getDailys(); // eslint-disable-next-line
     }, []);
 
     useEffect(() =>{
-        calculateProgress();
-    }, [progress]);
+        calculateProgress(); // eslint-disable-next-line
+    }, [progress]); 
 
     return (
         <Main progress={progress > 0}>
@@ -113,7 +115,7 @@ const Main = styled.main`
         color: #BABABA;
 
         span {
-            ${(props => props.progress ? 'var(--green)' : '#EBEBEB')};
+            color: ${(props => props.progress ? 'var(--green)' : '#EBEBEB')};
         }
     }
 

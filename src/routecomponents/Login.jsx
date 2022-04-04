@@ -14,16 +14,23 @@ export default function Login() {
     const [userInfo, setUserInfo] = useState({});
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
-    const { setImage } = useContext(UserContext).image;
+    const { setUserData } = useContext(UserContext).userData;
+    
 
+    useEffect(() => {
+        if (localStorage.getItem('userData') !== null) {
+            setUserData(JSON.parse(localStorage.getItem('userData')));
+            navigate("/hoje");
+        }
+    }, [])
 
     useEffect(() => {
         if(Object.keys(userInfo).length !== 0){
             setDisabled(true);
             axios.post(URL, userInfo)
             .then((response) => {
-                localStorage.setItem('token', response.data.token);
-                setImage(response.data.image);
+                localStorage.setItem('userData', JSON.stringify(response.data));
+                setUserData(response.data);
                 navigate("/hoje");
             })
             .catch(error => {
@@ -35,7 +42,7 @@ export default function Login() {
                 setDisabled(false);
             });
         }
-    }, [userInfo, setImage, navigate]);
+    }, [userInfo, setUserData, navigate]);
 
     return (
         <Main>

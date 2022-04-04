@@ -18,11 +18,11 @@ import './css/style.css';
 
 export default function App() {
 
-    const [image, setImage] = useState('');
+    const [userData, setUserData] = useState({});
     const [progress, setProgress] = useState(0);
 
     return (
-        <UserContext.Provider value={{image:{image, setImage}, progress:{progress, setProgress}}}>
+        <UserContext.Provider value={{userData:{userData, setUserData}, progress:{progress, setProgress}}}>
             <BrowserRouter>
                 <Header />
                 <Routes>
@@ -32,12 +32,6 @@ export default function App() {
                     <Route path="/hoje" element={<Today />} />
                     <Route path="/historico" element={<History />} />
                     <Route path="*" element={<NotFound />} />
-                    {/* <Route path="/" element={<Login />} />
-                    <Route path="/cadastro" element={<Register />} />
-                    <Route path="/habitos" element={<Habits />} />
-                    <Route path="/hoje" element={<Today />} />
-                    <Route path="/historico" element={<History />} />
-                    <Route path="*" element={<NotFound />} /> */}
                 </Routes>
                 <Nav />
             </BrowserRouter>

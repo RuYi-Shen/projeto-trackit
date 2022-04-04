@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Habit from '../components/Habit';
+import { ThreeDots } from 'react-loader-spinner'
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function Habits() {
     const URL ="https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -10,9 +13,11 @@ export default function Habits() {
     const [createMode, setCreateMode] = useState(false);
     const [habitDesription, setHabitDesription] = useState('');
     const [selectedDays, setSelectedDays] = useState(new Map());
+    const [disabled, setDisabled] = useState(false);
+    const { token } = useContext(UserContext).userData.userData;
     const [config] = useState({
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${token}`
         }
     });
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];    
@@ -36,17 +41,20 @@ export default function Habits() {
     }
 
     function createHabit() {
+        setDisabled(true);
         const data = {
             name: habitDesription,
             days: [...selectedDays.keys()]
         }
         axios.post(URL, data, config)
         .then((response) => {
+            setDisabled(false);
             setCreateMode(false);
             resetForm();
             getHabits();
         })
         .catch(error => {
+            setDisabled(false);
             console.log(error);
         });
     }
@@ -56,6 +64,15 @@ export default function Habits() {
         setSelectedDays(new Map());
     }
 
+    function handleClick(index) {
+        if (!disabled) {
+            (selectedDays.has(index) ? 
+                selectedDays.delete(index) 
+                : 
+                selectedDays.set(index))
+            setSelectedDays(new Map(selectedDays));
+        }
+    }
 
     function deleteHabit(id) {
         axios.delete(`${URL}/${id}`, config)
@@ -68,27 +85,29 @@ export default function Habits() {
     }
 
     useEffect(() => { 
-        getHabits();
+        getHabits(); // eslint-disable-next-line
     }, []);
 
     return (
-        <Main>
+        <Main disabled={disabled}>
             <div className="header">
                 <h2>Meus hábitos</h2>
                 <button onClick={()=>setCreateMode(true)}>+</button>
             </div>
             {createMode ? 
                 <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="nome do hábito" value={habitDesription} onChange={e => setHabitDesription(e.target.value)} required/>
-                    <div className="weekdays">
-                        {weekdays.map((day,index) => {
-                            return <Div key={index} selected={selectedDays.has(index)} onClick={()=> {(selectedDays.has(index) ? selectedDays.delete(index) : selectedDays.set(index)); setSelectedDays(new Map(selectedDays))}}>{day}</Div>
-                        })}
-                    </div>
-                    <div className="buttons">
-                        <p onClick={()=>setCreateMode(false)}>Cancelar</p>
-                        <button type="submit">Salvar</button>
-                    </div>
+                    <fieldset disabled={disabled}>
+                        <input type="text" placeholder="nome do hábito" value={habitDesription} onChange={e => setHabitDesription(e.target.value)} required/>
+                        <div className="weekdays">
+                            {weekdays.map((day,index) => {
+                                return <Div key={index} selected={selectedDays.has(index)} onClick={()=>handleClick(index)}>{day}</Div>
+                            })}
+                        </div>
+                        <div className="buttons">
+                            <p onClick={()=>setCreateMode(false)}>Cancelar</p>
+                            <button type="submit">{disabled ? <ThreeDots color="#FFF" height={30} width={60} /> : "Salvar"}</button>
+                        </div>
+                    </fieldset>
                 </form>
                 :
                 null
@@ -160,80 +179,92 @@ const Main = styled.main`
         margin-top: 20px;
         position: relative;
 
-        input {
+        fieldset {
             width: 100%;
-            height: 45px;
+            margin: 0;
+            padding: 0;
+            border: none;
 
-            border: 1px solid #D5D5D5;
-            border-radius: 5px;
-            padding: 11px;
-            
-            ::placeholder {
-                font-size: 20px;
-                line-height: 25px;
-
-                color: #DBDBDB;
-            }
-        }
-        
-        .weekdays {
-            display: flex;
-            justify-content: start;
-            width: 100%;
-            margin-top: 8px;
-            
-            div {
-                width: 30px;
-                height: 30px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 4px;
+            input {
+                width: 100%;
+                height: 45px;
 
                 border: 1px solid #D5D5D5;
-                box-sizing: border-box;
                 border-radius: 5px;
+                padding: 11px;
+                background-color: ${(props => props.disabled ? '#F2F2F2' : '#FFFFFF')};
+                color: ${(props => props.disabled ? '#B3B3B3' : 'var(--grey)')};
 
-                font-size: 20px;
-                line-height: 25px;
+                ::placeholder {
+                    font-size: 20px;
+                    line-height: 25px;
 
+                    color: #DBDBDB;
+                }
             }
-        }
+            
+            .weekdays {
+                display: flex;
+                justify-content: start;
+                width: 100%;
+                margin-top: 8px;
+                
+                div {
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-right: 4px;
 
-        .buttons {
-            width: 180px;
-            position: absolute;
-            bottom: 18px;
-            right: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+                    border: 1px solid #D5D5D5;
+                    box-sizing: border-box;
+                    border-radius: 5px;
 
-            p {
-                font-size: 16px;
-                line-height: 20px;
-                text-align: center;
+                    font-size: 20px;
+                    line-height: 25px;
 
-                color: var(--blue);
-
-                :hover {
-                    cursor: pointer;
                 }
             }
 
-            button {
-                width: 84px;
-                height: 35px;
+            .buttons {
+                width: 180px;
+                position: absolute;
+                bottom: 18px;
+                right: 18px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
 
-                background: var(--blue);
-                border-radius: 4.63636px;
-                border: none;
+                p {
+                    font-size: 16px;
+                    line-height: 20px;
+                    text-align: center;
 
-                font-size: 15.976px;
-                line-height: 20px;
-                text-align: center;
+                    color: var(--blue);
 
-                color: #FFFFFF;
+                    :hover {
+                        cursor: pointer;
+                    }
+                }
+
+                button {
+                    width: 84px;
+                    height: 35px;
+
+                    background: var(--blue);
+                    border-radius: 4.63636px;
+                    border: none;
+
+                    font-size: 15.976px;
+                    line-height: 20px;
+                    text-align: center;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    color: #FFFFFF;
+                }
             }
         }
     }
