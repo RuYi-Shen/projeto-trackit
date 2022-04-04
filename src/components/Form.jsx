@@ -40,6 +40,8 @@ export default function Form({type, setUserInfo, disabled}) {
 }
 
 
+/**************************** css ****************************/
+
 const Forms = styled.form`
     display: flex;
     flex-direction: column;

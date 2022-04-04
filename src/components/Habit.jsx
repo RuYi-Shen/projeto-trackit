@@ -22,6 +22,9 @@ export default function Habit({id, description, selected, deleteHabit}) {
     );
 }
 
+
+/**************************** css ****************************/
+
 const MyHabit = styled.div`
     width: 100%;
     height: 91px;

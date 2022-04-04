@@ -4,6 +4,7 @@ import UserContext from "../contexts/UserContext";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 import styled from "styled-components";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function Nav() {
 

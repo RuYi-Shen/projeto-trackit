@@ -10,6 +10,9 @@ export default function NotFound() {
     )
 }
 
+
+/**************************** css ****************************/
+
 const Div = styled.div`
 
     width: 100vw;

@@ -20,6 +20,9 @@ export default function Daily({daily, checkDaily, uncheckDaily}) {
     );
 }
 
+
+/**************************** css ****************************/
+
 const Div = styled.div`
     width: 100%;
     min-height: 94px;

@@ -132,6 +132,9 @@ export default function Habits() {
     );
 }
 
+
+/**************************** css ****************************/
+
 const Main = styled.main`
     min-height: 100vh;
     padding: 98px calc((100vw - 340px)/2);
