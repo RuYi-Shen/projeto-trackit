@@ -18,7 +18,7 @@ export default function Nav() {
                     className="progress-circle"
                     value={progress}
                     maxValue={100}
-                    text={<tspan dx={-22} dy={5}>Hoje</tspan>}
+                    text="Hoje"
                     background
                     backgroundPadding={6}
                     styles={buildStyles({
